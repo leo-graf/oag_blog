@@ -1,0 +1,85 @@
+/*
+ * Styles for OAG Blog feature
+ */
+
+ /*
+  * View OAG Blog
+  */
+
+/* Hide exposed filters which are jQuery processed */
+#edit-created-month-wrapper,
+#edit-created-year-wrapper {
+  display: none;
+}
+
+/* HOTFIX: Set float to none because this is shown in the sidebar and elements should
+be vertically stacked */
+ #views-exposed-form-oag-blog-blog-list .views-exposed-widget {
+   float: none;
+ }
+
+ /* HOTFIX: This prevents that the ajax throbber shakes the panes around */
+ #views-exposed-form-oag-blog-blog-list .views-submit-button {
+   min-height: 30px;
+ }
+
+ /*
+  * View OAG Blog Archive
+  */
+.view-oag-blog-archive .show-all {
+  margin: 0 0 7px 0;
+  font-weight: bold;
+}
+
+.view-oag-blog-archive .view-grouping-header-1 {
+  font-weight: bold;
+}
+
+.view-oag-blog-archive .oag-blog-archive-title {
+  margin-right: 3px;
+}
+
+.view-oag-blog-archive .oag-blog-archive-wrapper,
+.view-oag-blog-archive ul {
+  margin-left: 8px;
+  margin-bottom: 3px;
+}
+
+.view-oag-blog-archive .show-all,
+.view-oag-blog-archive .oag-blog-archive-toggle,
+.view-oag-blog-archive .oag-blog-archive-title {
+  cursor: pointer;
+  cursor: hand;
+}
+
+.view-oag-blog-archive .oag-blog-archive-toggle {
+  float: right;
+}
+
+.view-oag-blog-archive .oag-blog-archive-toggle:before,
+.view-oag-blog-archive .oag-blog-archive-row:before {
+  font: normal normal normal 14px/1 FontAwesome;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  font-stretch: normal;
+  font-size: inherit;
+  line-height: 1;
+  font-family: FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+.view-oag-blog-archive .oag-blog-archive-toggle:before {
+  content: "\f146";
+}
+
+.view-oag-blog-archive .oag-blog-archive-toggle.collapsed:before {
+  content: "\f0fe";
+}
+
+.view-oag-blog-archive .oag-blog-archive-row:before {
+  content: "\f111";
+  font-size: 0.6em;
+}

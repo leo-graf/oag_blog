@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the oag_blog feature.
+ */
+
+/**
+ * Implements hook_install().
+ */
+
+function oag_blog_install() {
+
+  $vocab = taxonomy_vocabulary_machine_name_load('section_type');
+  $term = (object) array(
+   'name' => 'Blog Section',
+   'description' => 'Added by OAG Blog module',
+   'vid' => $vocab->vid,
+   'field_oa_node_types' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'oag_blog_post',
+        ),
+      ),
+    ),
+    'field_oa_section_layout' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'node:oa_section:oag_section_blog',
+        ),
+      ),
+    ),
+    'path' => array(
+      'pathauto' => 0,
+    ),
+  );
+  taxonomy_term_save($term);
+
+  // Setup oa_related variables
+  variable_set('oa_related_comment_oag_blog_post', 1);
+  $allowed_types = variable_get('oa_related_allowed_types', NULL);
+  $allowed_types['oag_blog_post'] = 'oag_blog_post';
+  variable_set('oa_related_allowed_types', $allowed_types);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+
+function oag_blog_uninstall() {
+
+  $term = taxonomy_get_term_by_name('Blog Section', 'section_type');
+  if ($term) {
+    foreach (array_keys($term) as $tid) {
+      taxonomy_term_delete($tid);
+    }
+  }
+}

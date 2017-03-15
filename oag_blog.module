@@ -1,0 +1,91 @@
+<?php
+/**
+ * @file
+ * Code for the OAG Blog feature.
+ */
+
+include_once 'oag_blog.features.inc';
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function oag_blog_theme_registry_alter(&$theme_registry) {
+  $module_path = drupal_get_path('module', 'oag_blog');
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  foreach ($template_file_objects as $key => $template_file_object) {
+    if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
+      $theme_registry[$key]['theme path'] = $module_path;
+      $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+      $theme_registry[$key]['type'] = 'module';
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * @see views-view--oag-blog-archive--blog-archive.tpl.php
+ */
+function oag_blog_preprocess_views_view(&$vars) {
+  $view = $vars['view'];
+
+  if ($view->name == 'oag_blog_archive') {
+    $url = url(current_path(), array('absolute' => TRUE));
+    $attributes = array('attributes' => array('id' => array('oag-blog-archive-show-all')));
+    $vars['show_all_btn'] = l(t('Show all posts'), $url, $attributes);
+
+    // Add js file and settings
+    drupal_add_js(array('oag_blog' => array('oag-blog-archive-show-all' => array('year' => '', 'month' => ''))), 'setting');
+    drupal_add_js(drupal_get_path('module', 'oag_blog') . '/js/oag_blog_archive.js');
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * @see views-view-list--oag-blog-archive--blog-archive.tpl.php
+ */
+function oag_blog_preprocess_views_view_list(&$vars) {
+  $view = $vars['view'];
+
+  if ($view->name == 'oag_blog_archive') {
+    $row_index = $view->row_index;
+    $month = $view->style_plugin->rendered_fields[$row_index]['created_2'];
+    $year = $view->style_plugin->rendered_fields[$row_index]['created'];
+    $parameters = array(
+      'created_year' => $year,
+      'created_month' => $month,
+    );
+
+    $vars['full_url'] = url(drupal_get_path_alias(), array('absolute' => TRUE, 'query' => $parameters));
+    $vars['year'] = $year;
+    $vars['month'] = $month;
+    $vars['css_id'] = "oag-blog-archive-$year-$month";
+
+    // Add js settings
+    drupal_add_js(array('oag_blog' => array($vars['css_id'] => array('year' => $vars['year'], 'month' => $vars['month']))), 'setting');
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * @see views-view-grouping--oag-blog-archive.tpl.php
+ */
+function oag_blog_preprocess_views_view_grouping(&$vars) {
+  $view = $vars['view'];
+
+  if ($view->name == 'oag_blog_archive') {
+    $year = $vars['title'];
+    $parameters = array(
+      'created_year' => $year,
+    );
+
+    $vars['full_url'] = url(drupal_get_path_alias(), array('absolute' => TRUE, 'query' => $parameters));
+    $vars['year'] = $year;
+    $vars['css_id'] = "oag-blog-archive-$year";
+
+    // Add js settings
+    drupal_add_js(array('oag_blog' => array($vars['css_id'] => array('year' => $vars['year'], 'month' => $vars['month']))), 'setting');
+  }
+}
