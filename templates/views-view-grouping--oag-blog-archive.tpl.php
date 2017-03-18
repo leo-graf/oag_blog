@@ -20,9 +20,9 @@
 <div class="view-grouping">
   <div class="view-grouping-header view-grouping-header-1">
     <a id="<?php print $css_id; ?>" class="oag-blog-archive-title" href="<?php print $full_url; ?>"><?php print $title; ?></a>
-    <span class="oag-blog-archive-toggle collapsed" data-toggle="collapse" data-target="#view-grouping-<?php print $year . '-' . $month ?>"><span class="sr-only">Collapsed</span></span>
+    <span class="oag-blog-archive-toggle collapsed" data-toggle="collapse" data-target="#view-grouping-<?php print $year; ?>"><span class="sr-only">Collapsed</span></span>
   </div>
-  <div id="view-grouping-<?php print $year . '-' . $month ?>" class="view-grouping-content collapse">
+  <div id="view-grouping-<?php print $year; ?>" class="view-grouping-content collapse">
     <?php print $content; ?>
   </div>
 </div>

@@ -80,12 +80,11 @@ function oag_blog_preprocess_views_view_grouping(&$vars) {
     $parameters = array(
       'created_year' => $year,
     );
-
     $vars['full_url'] = url(drupal_get_path_alias(), array('absolute' => TRUE, 'query' => $parameters));
     $vars['year'] = $year;
     $vars['css_id'] = "oag-blog-archive-$year";
 
     // Add js settings
-    drupal_add_js(array('oag_blog' => array($vars['css_id'] => array('year' => $vars['year'], 'month' => $vars['month']))), 'setting');
+    drupal_add_js(array('oag_blog' => array($vars['css_id'] => array('year' => $vars['year'], 'month' => ''))), 'setting');
   }
 }
